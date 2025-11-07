@@ -306,6 +306,8 @@ class ServerArgs:
     ] = None
     expert_distribution_recorder_buffer_size: Optional[int] = None
     enable_expert_distribution_metrics: bool = False
+    # Optional CSV output for expert routing logs when recorder_mode is per_token
+    expert_distribution_csv_path: Optional[str] = None
     deepep_config: Optional[str] = None
     moe_dense_tp_size: Optional[int] = None
 
@@ -1822,6 +1824,12 @@ class ServerArgs:
             type=int,
             default=ServerArgs.expert_distribution_recorder_buffer_size,
             help="Circular buffer size of expert distribution recorder. Set to -1 to denote infinite buffer.",
+        )
+        parser.add_argument(
+            "--expert-distribution-csv-path",
+            type=str,
+            default=ServerArgs.expert_distribution_csv_path,
+            help="CSV file or directory path to dump per-token expert routing (requires --expert-distribution-recorder-mode per_token).",
         )
         parser.add_argument(
             "--enable-expert-distribution-metrics",

@@ -23,6 +23,7 @@ from collections import deque
 from contextlib import contextmanager
 from pathlib import Path
 from typing import TYPE_CHECKING, Any, Dict, List, Literal, Optional, Tuple, Type
+import csv
 
 import einops
 import torch
@@ -639,7 +640,8 @@ class _UtilizationRateAccumulatorMixin(_Accumulator):
         single_pass_data: Dict,
     ):
         super().append(forward_pass_id, gatherer_key, single_pass_data)
-        if self._enable:
+        # Some recorder modes (e.g., per_token) don't provide global_physical_count
+        if self._enable and ("global_physical_count" in single_pass_data):
             self._append_utilization_rate(
                 forward_pass_id, single_pass_data["global_physical_count"]
             )
@@ -749,6 +751,67 @@ class _DetailAccumulator(_UtilizationRateAccumulatorMixin):
         _dump_to_file(
             f"expert_distribution_recorder_{time.time()}_{self._rank}.pt", output
         )
+
+        # Optionally emit CSV rows of per-token per-layer top-1 expert routing
+        csv_path = self._server_args.expert_distribution_csv_path
+        if csv_path:
+            # Determine final file path
+            if csv_path.endswith(".csv"):
+                final_csv_path = csv_path
+                os.makedirs(os.path.dirname(final_csv_path) or ".", exist_ok=True)
+            else:
+                os.makedirs(csv_path, exist_ok=True)
+                final_csv_path = os.path.join(
+                    csv_path, f"expert_routing_{int(time.time())}_{self._rank}.csv"
+                )
+
+            # Prepare mapping from physical -> logical expert ids per layer
+            phys2log = self._expert_location_metadata.physical_to_logical_map.cpu()
+
+            with open(final_csv_path, mode="w", newline="") as f:
+                writer = csv.writer(f)
+                writer.writerow(
+                    [
+                        "forward_pass_id",
+                        "rank",
+                        "layer",
+                        "token_index",
+                        "position",
+                        "expert_top1_logical",
+                    ]
+                )
+
+                for rec in self._records:
+                    fpid = rec.get("forward_pass_id")
+                    positions = rec.get("positions") or []
+                    topk = rec.get("topk_ids_of_layer")
+                    if topk is None:
+                        continue
+                    # topk: (num_layers, num_tokens, K)
+                    num_layers = topk.shape[0]
+                    num_tokens = min(topk.shape[1], len(positions))
+
+                    for layer_idx in range(num_layers):
+                        # Map per-token primary expert (top-1)
+                        for tok_idx in range(num_tokens):
+                            expert_phys = int(topk[layer_idx, tok_idx, 0].item())
+                            if expert_phys < 0:
+                                continue
+                            # Safe mapping: if out-of-range, keep physical id
+                            if 0 <= expert_phys < phys2log.shape[1]:
+                                expert_logical = int(phys2log[layer_idx, expert_phys].item())
+                            else:
+                                expert_logical = expert_phys
+                            writer.writerow(
+                                [
+                                    fpid,
+                                    self._rank,
+                                    layer_idx,
+                                    tok_idx,
+                                    positions[tok_idx] if tok_idx < len(positions) else -1,
+                                    expert_logical,
+                                ]
+                            )
 
 
 class _StatAccumulator(_UtilizationRateAccumulatorMixin):

@@ -1,0 +1,517 @@
+/home1/yizhuoli/miniconda3/envs/sglang/lib/python3.12/site-packages/torch/cuda/__init__.py:63: FutureWarning: The pynvml package is deprecated. Please install nvidia-ml-py instead. If you did not install pynvml directly, please report this to the maintainers of the package that installed pynvml for you.
+  import pynvml  # type: ignore[import]
+W0927 13:28:18.407000 62737 site-packages/torch/utils/cpp_extension.py:2425] TORCH_CUDA_ARCH_LIST is not set, all archs for visible cards are included for compilation. 
+W0927 13:28:18.407000 62737 site-packages/torch/utils/cpp_extension.py:2425] If this is not desired, please set os.environ['TORCH_CUDA_ARCH_LIST'] to specific architectures.
+`torch_dtype` is deprecated! Use `dtype` instead!
+WARNING:sglang.srt.configs.model_config:mxfp4 quantization is not fully optimized yet. The speed can be slower than non-quantized models.
+[2025-09-27 13:28:19] server_args=ServerArgs(model_path='openai/gpt-oss-120b', tokenizer_path='openai/gpt-oss-120b', tokenizer_mode='auto', tokenizer_worker_num=1, skip_tokenizer_init=False, load_format='auto', model_loader_extra_config='{}', trust_remote_code=False, context_length=None, is_embedding=False, enable_multimodal=None, revision=None, model_impl='auto', host='127.0.0.1', port=30000, skip_server_warmup=False, warmups=None, nccl_port=None, dtype='bfloat16', quantization=None, quantization_param_path=None, kv_cache_dtype='auto', mem_fraction_static=0.856, max_running_requests=None, max_queued_requests=9223372036854775807, max_total_tokens=None, chunked_prefill_size=8192, max_prefill_tokens=16384, schedule_policy='fcfs', schedule_conservativeness=1.0, page_size=1, hybrid_kvcache_ratio=None, swa_full_tokens_ratio=0.8, disable_hybrid_swa_memory=True, device='cuda', tp_size=4, pp_size=1, max_micro_batch_size=None, stream_interval=1, stream_output=False, random_seed=899795159, constrained_json_whitespace_pattern=None, watchdog_timeout=300, dist_timeout=None, download_dir=None, base_gpu_id=0, gpu_id_step=1, sleep_on_idle=False, log_level='info', log_level_http=None, log_requests=False, log_requests_level=2, crash_dump_folder=None, show_time_cost=False, enable_metrics=False, enable_metrics_for_all_schedulers=False, tokenizer_metrics_custom_labels_header='x-customer-labels', tokenizer_metrics_allowed_customer_labels=None, bucket_time_to_first_token=None, bucket_inter_token_latency=None, bucket_e2e_request_latency=None, collect_tokens_histogram=False, prompt_tokens_buckets=None, generation_tokens_buckets=None, decode_log_interval=40, enable_request_time_stats_logging=False, kv_events_config=None, gc_warning_threshold_secs=0.0, enable_trace=False, oltp_traces_endpoint='localhost:4317', api_key=None, served_model_name='openai/gpt-oss-120b', weight_version='default', chat_template=None, completion_template=None, file_storage_path='sglang_storage', enable_cache_report=False, reasoning_parser=None, tool_call_parser=None, tool_server=None, dp_size=1, load_balance_method='round_robin', load_watch_interval=0.1, prefill_round_robin_balance=False, dist_init_addr=None, nnodes=1, node_rank=0, json_model_override_args='{}', preferred_sampling_params=None, enable_lora=None, max_lora_rank=None, lora_target_modules=None, lora_paths=None, max_loaded_loras=None, max_loras_per_batch=8, lora_backend='triton', attention_backend='triton', decode_attention_backend=None, prefill_attention_backend=None, sampling_backend='flashinfer', grammar_backend='xgrammar', mm_attention_backend=None, speculative_algorithm=None, speculative_draft_model_path=None, speculative_draft_model_revision=None, speculative_num_steps=None, speculative_eagle_topk=None, speculative_num_draft_tokens=None, speculative_accept_threshold_single=1.0, speculative_accept_threshold_acc=1.0, speculative_token_map=None, speculative_attention_mode='prefill', ep_size=4, moe_a2a_backend='none', moe_runner_backend='auto', flashinfer_mxfp4_moe_precision='default', enable_flashinfer_allreduce_fusion=False, deepep_mode='auto', ep_num_redundant_experts=0, ep_dispatch_algorithm='static', init_expert_location='trivial', enable_eplb=False, eplb_algorithm='auto', eplb_rebalance_num_iterations=1000, eplb_rebalance_layers_per_chunk=None, eplb_min_rebalancing_utilization_threshold=1.0, expert_distribution_recorder_mode=None, expert_distribution_recorder_buffer_size=1000, enable_expert_distribution_metrics=False, deepep_config=None, moe_dense_tp_size=None, enable_hierarchical_cache=False, hicache_ratio=2.0, hicache_size=0, hicache_write_policy='write_through', hicache_io_backend='kernel', hicache_mem_layout='layer_first', hicache_storage_backend=None, hicache_storage_prefetch_policy='best_effort', hicache_storage_backend_extra_config=None, enable_lmcache=False, enable_double_sparsity=False, ds_channel_config_path=None, ds_heavy_channel_num=32, ds_heavy_token_num=256, ds_heavy_channel_type='qk', ds_sparse_decode_threshold=4096, cpu_offload_gb=0, offload_group_size=-1, offload_num_in_group=1, offload_prefetch_step=1, offload_mode='cpu', disable_radix_cache=False, cuda_graph_max_bs=None, cuda_graph_bs=None, disable_cuda_graph=False, disable_cuda_graph_padding=False, enable_profile_cuda_graph=False, enable_cudagraph_gc=False, enable_nccl_nvls=False, enable_symm_mem=False, disable_flashinfer_cutlass_moe_fp4_allgather=False, enable_tokenizer_batch_encode=False, disable_outlines_disk_cache=False, disable_custom_all_reduce=False, enable_mscclpp=False, disable_overlap_schedule=False, enable_mixed_chunk=False, enable_dp_attention=False, enable_dp_lm_head=False, enable_two_batch_overlap=False, tbo_token_distribution_threshold=0.48, enable_torch_compile=False, torch_compile_max_bs=32, torchao_config='', enable_nan_detection=False, enable_p2p_check=False, triton_attention_reduce_in_fp32=False, triton_attention_num_kv_splits=8, triton_attention_split_tile_size=None, num_continuous_decode_steps=1, delete_ckpt_after_loading=False, enable_memory_saver=False, allow_auto_truncate=False, enable_custom_logit_processor=False, flashinfer_mla_disable_ragged=False, disable_shared_experts_fusion=False, disable_chunked_prefix_cache=False, disable_fast_image_processor=False, enable_return_hidden_states=False, scheduler_recv_interval=1, numa_node=None, enable_dynamic_batch_tokenizer=False, dynamic_batch_tokenizer_batch_size=32, dynamic_batch_tokenizer_batch_timeout=0.002, debug_tensor_dump_output_folder=None, debug_tensor_dump_input_file=None, debug_tensor_dump_inject=False, debug_tensor_dump_prefill_only=False, disaggregation_mode='null', disaggregation_transfer_backend='mooncake', disaggregation_bootstrap_port=8998, disaggregation_decode_tp=None, disaggregation_decode_dp=None, disaggregation_prefill_pp=1, disaggregation_ib_device=None, num_reserved_decode_tokens=512, disaggregation_decode_polling_interval=1, custom_weight_loader=[], weight_loader_disable_mmap=False, remote_instance_weight_loader_seed_instance_ip=None, remote_instance_weight_loader_seed_instance_service_port=None, remote_instance_weight_loader_send_weights_group_ports=None, enable_pdmux=False, sm_group_num=3, max_mamba_cache_size=None, mamba_ssm_dtype='float32', enable_ep_moe=False, enable_deepep_moe=False, enable_flashinfer_cutlass_moe=False, enable_flashinfer_cutedsl_moe=False, enable_flashinfer_trtllm_moe=False, enable_triton_kernel_moe=False, enable_flashinfer_mxfp4_moe=False)
+[2025-09-27 13:28:19] Downcasting torch.float32 to torch.bfloat16.
+[2025-09-27 13:28:19] mxfp4 quantization is not fully optimized yet. The speed can be slower than non-quantized models.
+[2025-09-27 13:28:19] Using default HuggingFace chat template with detected content format: string
+/home1/yizhuoli/miniconda3/envs/sglang/lib/python3.12/site-packages/torch/cuda/__init__.py:63: FutureWarning: The pynvml package is deprecated. Please install nvidia-ml-py instead. If you did not install pynvml directly, please report this to the maintainers of the package that installed pynvml for you.
+  import pynvml  # type: ignore[import]
+/home1/yizhuoli/miniconda3/envs/sglang/lib/python3.12/site-packages/torch/cuda/__init__.py:63: FutureWarning: The pynvml package is deprecated. Please install nvidia-ml-py instead. If you did not install pynvml directly, please report this to the maintainers of the package that installed pynvml for you.
+  import pynvml  # type: ignore[import]
+/home1/yizhuoli/miniconda3/envs/sglang/lib/python3.12/site-packages/torch/cuda/__init__.py:63: FutureWarning: The pynvml package is deprecated. Please install nvidia-ml-py instead. If you did not install pynvml directly, please report this to the maintainers of the package that installed pynvml for you.
+  import pynvml  # type: ignore[import]
+/home1/yizhuoli/miniconda3/envs/sglang/lib/python3.12/site-packages/torch/cuda/__init__.py:63: FutureWarning: The pynvml package is deprecated. Please install nvidia-ml-py instead. If you did not install pynvml directly, please report this to the maintainers of the package that installed pynvml for you.
+  import pynvml  # type: ignore[import]
+/home1/yizhuoli/miniconda3/envs/sglang/lib/python3.12/site-packages/torch/cuda/__init__.py:63: FutureWarning: The pynvml package is deprecated. Please install nvidia-ml-py instead. If you did not install pynvml directly, please report this to the maintainers of the package that installed pynvml for you.
+  import pynvml  # type: ignore[import]
+W0927 13:28:28.977000 63078 site-packages/torch/utils/cpp_extension.py:2425] TORCH_CUDA_ARCH_LIST is not set, all archs for visible cards are included for compilation. 
+W0927 13:28:28.977000 63078 site-packages/torch/utils/cpp_extension.py:2425] If this is not desired, please set os.environ['TORCH_CUDA_ARCH_LIST'] to specific architectures.
+W0927 13:28:29.343000 63076 site-packages/torch/utils/cpp_extension.py:2425] TORCH_CUDA_ARCH_LIST is not set, all archs for visible cards are included for compilation. 
+W0927 13:28:29.343000 63076 site-packages/torch/utils/cpp_extension.py:2425] If this is not desired, please set os.environ['TORCH_CUDA_ARCH_LIST'] to specific architectures.
+W0927 13:28:29.447000 63077 site-packages/torch/utils/cpp_extension.py:2425] TORCH_CUDA_ARCH_LIST is not set, all archs for visible cards are included for compilation. 
+W0927 13:28:29.447000 63077 site-packages/torch/utils/cpp_extension.py:2425] If this is not desired, please set os.environ['TORCH_CUDA_ARCH_LIST'] to specific architectures.
+W0927 13:28:29.782000 63074 site-packages/torch/utils/cpp_extension.py:2425] TORCH_CUDA_ARCH_LIST is not set, all archs for visible cards are included for compilation. 
+W0927 13:28:29.782000 63074 site-packages/torch/utils/cpp_extension.py:2425] If this is not desired, please set os.environ['TORCH_CUDA_ARCH_LIST'] to specific architectures.
+`torch_dtype` is deprecated! Use `dtype` instead!
+[2025-09-27 13:28:30 TP3 EP3] Downcasting torch.float32 to torch.bfloat16.
+[2025-09-27 13:28:30 TP3 EP3] mxfp4 quantization is not fully optimized yet. The speed can be slower than non-quantized models.
+`torch_dtype` is deprecated! Use `dtype` instead!
+[2025-09-27 13:28:30 TP2 EP2] Downcasting torch.float32 to torch.bfloat16.
+[2025-09-27 13:28:30 TP2 EP2] mxfp4 quantization is not fully optimized yet. The speed can be slower than non-quantized models.
+`torch_dtype` is deprecated! Use `dtype` instead!
+[2025-09-27 13:28:30 TP0 EP0] Downcasting torch.float32 to torch.bfloat16.
+[2025-09-27 13:28:30 TP0 EP0] mxfp4 quantization is not fully optimized yet. The speed can be slower than non-quantized models.
+[2025-09-27 13:28:30 TP3 EP3] Downcasting torch.float32 to torch.bfloat16.
+[2025-09-27 13:28:30 TP3 EP3] mxfp4 quantization is not fully optimized yet. The speed can be slower than non-quantized models.
+[2025-09-27 13:28:30 TP2 EP2] Downcasting torch.float32 to torch.bfloat16.
+[2025-09-27 13:28:30 TP2 EP2] mxfp4 quantization is not fully optimized yet. The speed can be slower than non-quantized models.
+[2025-09-27 13:28:31 TP0 EP0] Downcasting torch.float32 to torch.bfloat16.
+[2025-09-27 13:28:31 TP0 EP0] mxfp4 quantization is not fully optimized yet. The speed can be slower than non-quantized models.
+[2025-09-27 13:28:31 TP0 EP0] Init torch distributed begin.
+W0927 13:28:34.513000 63075 site-packages/torch/utils/cpp_extension.py:2425] TORCH_CUDA_ARCH_LIST is not set, all archs for visible cards are included for compilation. 
+W0927 13:28:34.513000 63075 site-packages/torch/utils/cpp_extension.py:2425] If this is not desired, please set os.environ['TORCH_CUDA_ARCH_LIST'] to specific architectures.
+`torch_dtype` is deprecated! Use `dtype` instead!
+[2025-09-27 13:28:35 TP1 EP1] Downcasting torch.float32 to torch.bfloat16.
+[2025-09-27 13:28:35 TP1 EP1] mxfp4 quantization is not fully optimized yet. The speed can be slower than non-quantized models.
+[2025-09-27 13:28:35 TP1 EP1] Downcasting torch.float32 to torch.bfloat16.
+[2025-09-27 13:28:35 TP1 EP1] mxfp4 quantization is not fully optimized yet. The speed can be slower than non-quantized models.
+[Gloo] Rank 0 is connected to 3 peer ranks. Expected number of connected peer ranks is : 3
+[Gloo] Rank 2 is connected to 3 peer ranks. Expected number of connected peer ranks is : 3
+[Gloo] Rank 1 is connected to 3 peer ranks. Expected number of connected peer ranks is : 3
+[Gloo] Rank 3 is connected to 3 peer ranks. Expected number of connected peer ranks is : 3
+[Gloo] Rank 0 is connected to 3 peer ranks. Expected number of connected peer ranks is : 3
+[Gloo] Rank 1 is connected to 3 peer ranks. Expected number of connected peer ranks is : 3
+[Gloo] Rank 2 is connected to 3 peer ranks. Expected number of connected peer ranks is : 3
+[Gloo] Rank 3 is connected to 3 peer ranks. Expected number of connected peer ranks is : 3
+[2025-09-27 13:28:36 TP0 EP0] sglang is using nccl==2.27.3
+[Gloo] Rank 0 is connected to 0 peer ranks. Expected number of connected peer ranks is : 0
+[Gloo] Rank 0 is connected to 0 peer ranks. Expected number of connected peer ranks is : 0
+[Gloo] Rank 0 is connected to 0 peer ranks. Expected number of connected peer ranks is : 0
+[Gloo] Rank 0 is connected to 0 peer ranks. Expected number of connected peer ranks is : 0
+[Gloo] Rank 0 is connected to 0 peer ranks. Expected number of connected peer ranks is : 0
+[Gloo] Rank 0 is connected to 0 peer ranks. Expected number of connected peer ranks is : 0
+[Gloo] Rank 0 is connected to 0 peer ranks. Expected number of connected peer ranks is : 0
+[Gloo] Rank 0 is connected to 0 peer ranks. Expected number of connected peer ranks is : 0
+[Gloo] Rank 0 is connected to 3 peer ranks. Expected number of connected peer ranks is : 3
+[Gloo] Rank 1 is connected to 3 peer ranks. Expected number of connected peer ranks is : 3
+[Gloo] Rank 2 is connected to 3 peer ranks. Expected number of connected peer ranks is : 3
+[Gloo] Rank 3 is connected to 3 peer ranks. Expected number of connected peer ranks is : 3
+[2025-09-27 13:28:36 TP0 EP0] Init torch distributed ends. mem usage=1.01 GB
+[2025-09-27 13:28:36 TP3 EP3] CUDA-fused xIELU not available (No module named 'xielu') – falling back to a Python version.
+For CUDA xIELU (experimental), `pip install git+https://github.com/nickjbrowning/XIELU`
+[2025-09-27 13:28:36 TP2 EP2] CUDA-fused xIELU not available (No module named 'xielu') – falling back to a Python version.
+For CUDA xIELU (experimental), `pip install git+https://github.com/nickjbrowning/XIELU`
+[2025-09-27 13:28:36 TP0 EP0] CUDA-fused xIELU not available (No module named 'xielu') – falling back to a Python version.
+For CUDA xIELU (experimental), `pip install git+https://github.com/nickjbrowning/XIELU`
+[2025-09-27 13:28:36 TP1 EP1] CUDA-fused xIELU not available (No module named 'xielu') – falling back to a Python version.
+For CUDA xIELU (experimental), `pip install git+https://github.com/nickjbrowning/XIELU`
+[2025-09-27 13:28:37 TP0 EP0] Load weight begin. avail mem=77.82 GB
+[2025-09-27 13:28:38 TP3 EP3] Using model weights format ['*.safetensors']
+[2025-09-27 13:28:38 TP2 EP2] Using model weights format ['*.safetensors']
+[2025-09-27 13:28:38 TP0 EP0] Using model weights format ['*.safetensors']
+[2025-09-27 13:28:38 TP1 EP1] Using model weights format ['*.safetensors']
+Loading safetensors checkpoint shards:   0% Completed | 0/15 [00:00<?, ?it/s]
+Loading safetensors checkpoint shards: 100% Completed | 15/15 [00:00<00:00, 549.25it/s]
+
+[2025-09-27 13:28:49 TP0 EP0] Load weight end. type=GptOssForCausalLM, dtype=torch.bfloat16, avail mem=22.87 GB, mem usage=54.96 GB.
+[2025-09-27 13:28:49 TP2 EP2] KV Cache is allocated. #tokens: 675738, K size: 5.80 GB, V size: 5.80 GB
+[2025-09-27 13:28:49 TP0 EP0] KV Cache is allocated. #tokens: 675738, K size: 5.80 GB, V size: 5.80 GB
+[2025-09-27 13:28:49 TP0 EP0] Memory pool end. avail mem=9.90 GB
+[2025-09-27 13:28:49 TP1 EP1] KV Cache is allocated. #tokens: 675738, K size: 5.80 GB, V size: 5.80 GB
+[2025-09-27 13:28:49 TP3 EP3] KV Cache is allocated. #tokens: 675738, K size: 5.80 GB, V size: 5.80 GB
+[2025-09-27 13:28:49 TP0 EP0] Capture cuda graph begin. This can take up to several minutes. avail mem=9.89 GB
+[2025-09-27 13:28:49 TP0 EP0] Capture cuda graph bs [1, 2, 4, 8, 16, 24, 32, 40, 48, 56, 64, 72, 80, 88, 96, 104, 112, 120, 128, 136, 144, 152, 160]
+  0%|          | 0/23 [00:00<?, ?it/s]Capturing batches (bs=160 avail_mem=9.59 GB):   0%|          | 0/23 [00:00<?, ?it/s]Capturing batches (bs=160 avail_mem=9.59 GB):   0%|          | 0/23 [00:01<?, ?it/s]
+[2025-09-27 13:28:51 TP0 EP0] Registering 0 cuda graph addresses
+[2025-09-27 13:28:51 TP2 EP2] Registering 0 cuda graph addresses
+[2025-09-27 13:28:51 TP3 EP3] Registering 0 cuda graph addresses
+[2025-09-27 13:28:51 TP1 EP1] Registering 0 cuda graph addresses
+[2025-09-27 13:28:51 TP3 EP3] Scheduler hit an exception: Traceback (most recent call last):
+  File "/home1/yizhuoli/sglang/python/sglang/srt/managers/scheduler.py", line 2701, in run_scheduler_process
+    scheduler = Scheduler(
+                ^^^^^^^^^^
+  File "/home1/yizhuoli/sglang/python/sglang/srt/managers/scheduler.py", line 344, in __init__
+    self.tp_worker = TpWorkerClass(
+                     ^^^^^^^^^^^^^^
+  File "/home1/yizhuoli/sglang/python/sglang/srt/managers/tp_worker_overlap_thread.py", line 73, in __init__
+    self.worker = TpModelWorker(
+                  ^^^^^^^^^^^^^^
+  File "/home1/yizhuoli/sglang/python/sglang/srt/managers/tp_worker.py", line 96, in __init__
+    self.model_runner = ModelRunner(
+                        ^^^^^^^^^^^^
+  File "/home1/yizhuoli/sglang/python/sglang/srt/model_executor/model_runner.py", line 260, in __init__
+    self.initialize(min_per_gpu_memory)
+  File "/home1/yizhuoli/sglang/python/sglang/srt/model_executor/model_runner.py", line 397, in initialize
+    self.init_device_graphs()
+  File "/home1/yizhuoli/sglang/python/sglang/srt/model_executor/model_runner.py", line 1899, in init_device_graphs
+    self.graph_runner = graph_runners[self.device](self)
+                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home1/yizhuoli/sglang/python/sglang/srt/model_executor/cuda_graph_runner.py", line 389, in __init__
+    self.capture()
+  File "/home1/yizhuoli/sglang/python/sglang/srt/model_executor/cuda_graph_runner.py", line 497, in capture
+    ) = self.capture_one_batch_size(bs, forward)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home1/yizhuoli/sglang/python/sglang/srt/model_executor/cuda_graph_runner.py", line 668, in capture_one_batch_size
+    run_once()
+  File "/home1/yizhuoli/sglang/python/sglang/srt/model_executor/cuda_graph_runner.py", line 657, in run_once
+    logits_output_or_pp_proxy_tensors = forward(
+                                        ^^^^^^^^
+  File "/home1/yizhuoli/miniconda3/envs/sglang/lib/python3.12/site-packages/torch/utils/_contextlib.py", line 120, in decorate_context
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/home1/yizhuoli/sglang/python/sglang/srt/models/gpt_oss.py", line 643, in forward
+    hidden_states = self.model(
+                    ^^^^^^^^^^^
+  File "/home1/yizhuoli/miniconda3/envs/sglang/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1773, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home1/yizhuoli/miniconda3/envs/sglang/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1784, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home1/yizhuoli/sglang/python/sglang/srt/models/gpt_oss.py", line 574, in forward
+    hidden_states, residual = layer(
+                              ^^^^^^
+  File "/home1/yizhuoli/miniconda3/envs/sglang/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1773, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home1/yizhuoli/miniconda3/envs/sglang/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1784, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home1/yizhuoli/sglang/python/sglang/srt/models/gpt_oss.py", line 492, in forward
+    hidden_states = self.mlp(hidden_states, forward_batch, should_allreduce_fusion)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home1/yizhuoli/miniconda3/envs/sglang/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1773, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home1/yizhuoli/miniconda3/envs/sglang/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1784, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home1/yizhuoli/sglang/python/sglang/srt/models/gpt_oss.py", line 167, in forward
+    return self.forward_normal(hidden_states, should_allreduce_fusion)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home1/yizhuoli/sglang/python/sglang/srt/models/gpt_oss.py", line 187, in forward_normal
+    final_hidden_states = self.experts(hidden_states, topk_output)
+                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home1/yizhuoli/miniconda3/envs/sglang/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1773, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home1/yizhuoli/miniconda3/envs/sglang/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1784, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home1/yizhuoli/sglang/python/sglang/srt/layers/moe/ep_moe/layer.py", line 148, in forward
+    return super().forward(hidden_states, topk_output)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home1/yizhuoli/sglang/python/sglang/srt/layers/moe/fused_moe_triton/layer.py", line 833, in forward
+    combine_input = self.quant_method.apply(
+                    ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home1/yizhuoli/sglang/python/sglang/srt/layers/quantization/mxfp4.py", line 731, in apply
+    quant_info = TritonMoeQuantInfo(
+                 ^^^^^^^^^^^^^^^^^^^
+TypeError: TritonMoeQuantInfo.__init__() got an unexpected keyword argument 'w13_weight_bias'
+
+[2025-09-27 13:28:51 TP0 EP0] Scheduler hit an exception: Traceback (most recent call last):
+  File "/home1/yizhuoli/sglang/python/sglang/srt/managers/scheduler.py", line 2701, in run_scheduler_process
+    scheduler = Scheduler(
+                ^^^^^^^^^^
+  File "/home1/yizhuoli/sglang/python/sglang/srt/managers/scheduler.py", line 344, in __init__
+    self.tp_worker = TpWorkerClass(
+                     ^^^^^^^^^^^^^^
+  File "/home1/yizhuoli/sglang/python/sglang/srt/managers/tp_worker_overlap_thread.py", line 73, in __init__
+    self.worker = TpModelWorker(
+                  ^^^^^^^^^^^^^^
+  File "/home1/yizhuoli/sglang/python/sglang/srt/managers/tp_worker.py", line 96, in __init__
+    self.model_runner = ModelRunner(
+                        ^^^^^^^^^^^^
+  File "/home1/yizhuoli/sglang/python/sglang/srt/model_executor/model_runner.py", line 260, in __init__
+    self.initialize(min_per_gpu_memory)
+  File "/home1/yizhuoli/sglang/python/sglang/srt/model_executor/model_runner.py", line 397, in initialize
+    self.init_device_graphs()
+  File "/home1/yizhuoli/sglang/python/sglang/srt/model_executor/model_runner.py", line 1899, in init_device_graphs
+    self.graph_runner = graph_runners[self.device](self)
+                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home1/yizhuoli/sglang/python/sglang/srt/model_executor/cuda_graph_runner.py", line 389, in __init__
+    self.capture()
+  File "/home1/yizhuoli/sglang/python/sglang/srt/model_executor/cuda_graph_runner.py", line 497, in capture
+    ) = self.capture_one_batch_size(bs, forward)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home1/yizhuoli/sglang/python/sglang/srt/model_executor/cuda_graph_runner.py", line 668, in capture_one_batch_size
+    run_once()
+  File "/home1/yizhuoli/sglang/python/sglang/srt/model_executor/cuda_graph_runner.py", line 657, in run_once
+    logits_output_or_pp_proxy_tensors = forward(
+                                        ^^^^^^^^
+  File "/home1/yizhuoli/miniconda3/envs/sglang/lib/python3.12/site-packages/torch/utils/_contextlib.py", line 120, in decorate_context
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/home1/yizhuoli/sglang/python/sglang/srt/models/gpt_oss.py", line 643, in forward
+    hidden_states = self.model(
+                    ^^^^^^^^^^^
+  File "/home1/yizhuoli/miniconda3/envs/sglang/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1773, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home1/yizhuoli/miniconda3/envs/sglang/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1784, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home1/yizhuoli/sglang/python/sglang/srt/models/gpt_oss.py", line 574, in forward
+    hidden_states, residual = layer(
+                              ^^^^^^
+  File "/home1/yizhuoli/miniconda3/envs/sglang/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1773, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home1/yizhuoli/miniconda3/envs/sglang/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1784, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home1/yizhuoli/sglang/python/sglang/srt/models/gpt_oss.py", line 492, in forward
+    hidden_states = self.mlp(hidden_states, forward_batch, should_allreduce_fusion)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home1/yizhuoli/miniconda3/envs/sglang/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1773, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home1/yizhuoli/miniconda3/envs/sglang/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1784, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home1/yizhuoli/sglang/python/sglang/srt/models/gpt_oss.py", line 167, in forward
+    return self.forward_normal(hidden_states, should_allreduce_fusion)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home1/yizhuoli/sglang/python/sglang/srt/models/gpt_oss.py", line 187, in forward_normal
+    final_hidden_states = self.experts(hidden_states, topk_output)
+                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home1/yizhuoli/miniconda3/envs/sglang/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1773, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home1/yizhuoli/miniconda3/envs/sglang/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1784, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home1/yizhuoli/sglang/python/sglang/srt/layers/moe/ep_moe/layer.py", line 148, in forward
+    return super().forward(hidden_states, topk_output)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home1/yizhuoli/sglang/python/sglang/srt/layers/moe/fused_moe_triton/layer.py", line 833, in forward
+    combine_input = self.quant_method.apply(
+                    ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home1/yizhuoli/sglang/python/sglang/srt/layers/quantization/mxfp4.py", line 731, in apply
+    quant_info = TritonMoeQuantInfo(
+                 ^^^^^^^^^^^^^^^^^^^
+TypeError: TritonMoeQuantInfo.__init__() got an unexpected keyword argument 'w13_weight_bias'
+
+[2025-09-27 13:28:51 TP2 EP2] Scheduler hit an exception: Traceback (most recent call last):
+  File "/home1/yizhuoli/sglang/python/sglang/srt/managers/scheduler.py", line 2701, in run_scheduler_process
+    scheduler = Scheduler(
+                ^^^^^^^^^^
+  File "/home1/yizhuoli/sglang/python/sglang/srt/managers/scheduler.py", line 344, in __init__
+    self.tp_worker = TpWorkerClass(
+                     ^^^^^^^^^^^^^^
+  File "/home1/yizhuoli/sglang/python/sglang/srt/managers/tp_worker_overlap_thread.py", line 73, in __init__
+    self.worker = TpModelWorker(
+                  ^^^^^^^^^^^^^^
+  File "/home1/yizhuoli/sglang/python/sglang/srt/managers/tp_worker.py", line 96, in __init__
+    self.model_runner = ModelRunner(
+                        ^^^^^^^^^^^^
+  File "/home1/yizhuoli/sglang/python/sglang/srt/model_executor/model_runner.py", line 260, in __init__
+    self.initialize(min_per_gpu_memory)
+  File "/home1/yizhuoli/sglang/python/sglang/srt/model_executor/model_runner.py", line 397, in initialize
+    self.init_device_graphs()
+  File "/home1/yizhuoli/sglang/python/sglang/srt/model_executor/model_runner.py", line 1899, in init_device_graphs
+    self.graph_runner = graph_runners[self.device](self)
+                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home1/yizhuoli/sglang/python/sglang/srt/model_executor/cuda_graph_runner.py", line 389, in __init__
+    self.capture()
+  File "/home1/yizhuoli/sglang/python/sglang/srt/model_executor/cuda_graph_runner.py", line 497, in capture
+    ) = self.capture_one_batch_size(bs, forward)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home1/yizhuoli/sglang/python/sglang/srt/model_executor/cuda_graph_runner.py", line 668, in capture_one_batch_size
+    run_once()
+  File "/home1/yizhuoli/sglang/python/sglang/srt/model_executor/cuda_graph_runner.py", line 657, in run_once
+    logits_output_or_pp_proxy_tensors = forward(
+                                        ^^^^^^^^
+  File "/home1/yizhuoli/miniconda3/envs/sglang/lib/python3.12/site-packages/torch/utils/_contextlib.py", line 120, in decorate_context
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/home1/yizhuoli/sglang/python/sglang/srt/models/gpt_oss.py", line 643, in forward
+    hidden_states = self.model(
+                    ^^^^^^^^^^^
+  File "/home1/yizhuoli/miniconda3/envs/sglang/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1773, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home1/yizhuoli/miniconda3/envs/sglang/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1784, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home1/yizhuoli/sglang/python/sglang/srt/models/gpt_oss.py", line 574, in forward
+    hidden_states, residual = layer(
+                              ^^^^^^
+  File "/home1/yizhuoli/miniconda3/envs/sglang/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1773, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home1/yizhuoli/miniconda3/envs/sglang/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1784, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home1/yizhuoli/sglang/python/sglang/srt/models/gpt_oss.py", line 492, in forward
+    hidden_states = self.mlp(hidden_states, forward_batch, should_allreduce_fusion)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home1/yizhuoli/miniconda3/envs/sglang/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1773, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home1/yizhuoli/miniconda3/envs/sglang/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1784, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home1/yizhuoli/sglang/python/sglang/srt/models/gpt_oss.py", line 167, in forward
+    return self.forward_normal(hidden_states, should_allreduce_fusion)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home1/yizhuoli/sglang/python/sglang/srt/models/gpt_oss.py", line 187, in forward_normal
+    final_hidden_states = self.experts(hidden_states, topk_output)
+                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home1/yizhuoli/miniconda3/envs/sglang/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1773, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home1/yizhuoli/miniconda3/envs/sglang/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1784, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home1/yizhuoli/sglang/python/sglang/srt/layers/moe/ep_moe/layer.py", line 148, in forward
+    return super().forward(hidden_states, topk_output)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home1/yizhuoli/sglang/python/sglang/srt/layers/moe/fused_moe_triton/layer.py", line 833, in forward
+    combine_input = self.quant_method.apply(
+                    ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home1/yizhuoli/sglang/python/sglang/srt/layers/quantization/mxfp4.py", line 731, in apply
+    quant_info = TritonMoeQuantInfo(
+                 ^^^^^^^^^^^^^^^^^^^
+TypeError: TritonMoeQuantInfo.__init__() got an unexpected keyword argument 'w13_weight_bias'
+
+[2025-09-27 13:28:51] Received sigquit from a child process. It usually means the child failed.
+[2025-09-27 13:28:51 TP1 EP1] Scheduler hit an exception: Traceback (most recent call last):
+  File "/home1/yizhuoli/sglang/python/sglang/srt/managers/scheduler.py", line 2701, in run_scheduler_process
+    scheduler = Scheduler(
+                ^^^^^^^^^^
+  File "/home1/yizhuoli/sglang/python/sglang/srt/managers/scheduler.py", line 344, in __init__
+    self.tp_worker = TpWorkerClass(
+                     ^^^^^^^^^^^^^^
+  File "/home1/yizhuoli/sglang/python/sglang/srt/managers/tp_worker_overlap_thread.py", line 73, in __init__
+    self.worker = TpModelWorker(
+                  ^^^^^^^^^^^^^^
+  File "/home1/yizhuoli/sglang/python/sglang/srt/managers/tp_worker.py", line 96, in __init__
+    self.model_runner = ModelRunner(
+                        ^^^^^^^^^^^^
+  File "/home1/yizhuoli/sglang/python/sglang/srt/model_executor/model_runner.py", line 260, in __init__
+    self.initialize(min_per_gpu_memory)
+  File "/home1/yizhuoli/sglang/python/sglang/srt/model_executor/model_runner.py", line 397, in initialize
+    self.init_device_graphs()
+  File "/home1/yizhuoli/sglang/python/sglang/srt/model_executor/model_runner.py", line 1899, in init_device_graphs
+    self.graph_runner = graph_runners[self.device](self)
+                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home1/yizhuoli/sglang/python/sglang/srt/model_executor/cuda_graph_runner.py", line 389, in __init__
+    self.capture()
+  File "/home1/yizhuoli/sglang/python/sglang/srt/model_executor/cuda_graph_runner.py", line 497, in capture
+    ) = self.capture_one_batch_size(bs, forward)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home1/yizhuoli/sglang/python/sglang/srt/model_executor/cuda_graph_runner.py", line 668, in capture_one_batch_size
+    run_once()
+  File "/home1/yizhuoli/sglang/python/sglang/srt/model_executor/cuda_graph_runner.py", line 657, in run_once
+    logits_output_or_pp_proxy_tensors = forward(
+                                        ^^^^^^^^
+  File "/home1/yizhuoli/miniconda3/envs/sglang/lib/python3.12/site-packages/torch/utils/_contextlib.py", line 120, in decorate_context
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/home1/yizhuoli/sglang/python/sglang/srt/models/gpt_oss.py", line 643, in forward
+    hidden_states = self.model(
+                    ^^^^^^^^^^^
+  File "/home1/yizhuoli/miniconda3/envs/sglang/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1773, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home1/yizhuoli/miniconda3/envs/sglang/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1784, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home1/yizhuoli/sglang/python/sglang/srt/models/gpt_oss.py", line 574, in forward
+    hidden_states, residual = layer(
+                              ^^^^^^
+  File "/home1/yizhuoli/miniconda3/envs/sglang/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1773, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home1/yizhuoli/miniconda3/envs/sglang/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1784, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home1/yizhuoli/sglang/python/sglang/srt/models/gpt_oss.py", line 492, in forward
+    hidden_states = self.mlp(hidden_states, forward_batch, should_allreduce_fusion)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home1/yizhuoli/miniconda3/envs/sglang/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1773, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home1/yizhuoli/miniconda3/envs/sglang/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1784, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home1/yizhuoli/sglang/python/sglang/srt/models/gpt_oss.py", line 167, in forward
+    return self.forward_normal(hidden_states, should_allreduce_fusion)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home1/yizhuoli/sglang/python/sglang/srt/models/gpt_oss.py", line 187, in forward_normal
+    final_hidden_states = self.experts(hidden_states, topk_output)
+                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home1/yizhuoli/miniconda3/envs/sglang/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1773, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home1/yizhuoli/miniconda3/envs/sglang/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1784, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home1/yizhuoli/sglang/python/sglang/srt/layers/moe/ep_moe/layer.py", line 148, in forward
+    return super().forward(hidden_states, topk_output)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home1/yizhuoli/sglang/python/sglang/srt/layers/moe/fused_moe_triton/layer.py", line 833, in forward
+    combine_input = self.quant_method.apply(
+                    ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home1/yizhuoli/sglang/python/sglang/srt/layers/quantization/mxfp4.py", line 731, in apply
+    quant_info = TritonMoeQuantInfo(
+                 ^^^^^^^^^^^^^^^^^^^
+TypeError: TritonMoeQuantInfo.__init__() got an unexpected keyword argument 'w13_weight_bias'
+
+[2025-09-27 13:28:51] Received sigquit from a child process. It usually means the child failed.
+--- Logging error ---
+Traceback (most recent call last):
+  File "/home1/yizhuoli/miniconda3/envs/sglang/lib/python3.12/site-packages/psutil/_common.py", line 455, in wrapper
+    ret = self._cache[fun]
+          ^^^^^^^^^^^
+AttributeError: 'Process' object has no attribute '_cache'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home1/yizhuoli/miniconda3/envs/sglang/lib/python3.12/logging/__init__.py", line 1163, in emit
+    stream.write(msg + self.terminator)
+RuntimeError: reentrant call inside <_io.BufferedWriter name='<stderr>'>
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home1/yizhuoli/miniconda3/envs/sglang/lib/python3.12/logging/__init__.py", line 1163, in emit
+    stream.write(msg + self.terminator)
+  File "/home1/yizhuoli/sglang/python/sglang/srt/entrypoints/engine.py", line 704, in launch_phase_sigquit_handler
+    logger.error(
+  File "/home1/yizhuoli/miniconda3/envs/sglang/lib/python3.12/logging/__init__.py", line 1568, in error
+    self._log(ERROR, msg, args, **kwargs)
+  File "/home1/yizhuoli/miniconda3/envs/sglang/lib/python3.12/logging/__init__.py", line 1684, in _log
+    self.handle(record)
+  File "/home1/yizhuoli/miniconda3/envs/sglang/lib/python3.12/logging/__init__.py", line 1700, in handle
+    self.callHandlers(record)
+  File "/home1/yizhuoli/miniconda3/envs/sglang/lib/python3.12/logging/__init__.py", line 1762, in callHandlers
+    hdlr.handle(record)
+  File "/home1/yizhuoli/miniconda3/envs/sglang/lib/python3.12/logging/__init__.py", line 1028, in handle
+    self.emit(record)
+  File "/home1/yizhuoli/miniconda3/envs/sglang/lib/python3.12/logging/__init__.py", line 1168, in emit
+    self.handleError(record)
+  File "/home1/yizhuoli/miniconda3/envs/sglang/lib/python3.12/logging/__init__.py", line 1081, in handleError
+    sys.stderr.write('--- Logging error ---\n')
+RuntimeError: reentrant call inside <_io.BufferedWriter name='<stderr>'>
+Call stack:
+  File "<frozen runpy>", line 198, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "/home1/yizhuoli/sglang/python/sglang/launch_server.py", line 14, in <module>
+    launch_server(server_args)
+  File "/home1/yizhuoli/sglang/python/sglang/srt/entrypoints/http_server.py", line 1214, in launch_server
+    tokenizer_manager, template_manager, scheduler_info = _launch_subprocesses(
+  File "/home1/yizhuoli/sglang/python/sglang/srt/entrypoints/engine.py", line 860, in _launch_subprocesses
+    data = scheduler_pipe_readers[i].recv()
+  File "/home1/yizhuoli/miniconda3/envs/sglang/lib/python3.12/multiprocessing/connection.py", line 250, in recv
+    buf = self._recv_bytes()
+  File "/home1/yizhuoli/miniconda3/envs/sglang/lib/python3.12/multiprocessing/connection.py", line 430, in _recv_bytes
+    buf = self._recv(4)
+  File "/home1/yizhuoli/miniconda3/envs/sglang/lib/python3.12/multiprocessing/connection.py", line 395, in _recv
+    chunk = read(handle, remaining)
+  File "/home1/yizhuoli/sglang/python/sglang/srt/entrypoints/engine.py", line 707, in launch_phase_sigquit_handler
+    kill_process_tree(os.getpid())
+  File "/home1/yizhuoli/sglang/python/sglang/srt/utils.py", line 853, in kill_process_tree
+    itself = psutil.Process(parent_pid)
+  File "/home1/yizhuoli/miniconda3/envs/sglang/lib/python3.12/site-packages/psutil/__init__.py", line 315, in __init__
+    self._init(pid)
+  File "/home1/yizhuoli/miniconda3/envs/sglang/lib/python3.12/site-packages/psutil/__init__.py", line 348, in _init
+    self._ident = self._get_ident()
+  File "/home1/yizhuoli/miniconda3/envs/sglang/lib/python3.12/site-packages/psutil/__init__.py", line 395, in _get_ident
+    return (self.pid, self._proc.create_time(monotonic=True))
+  File "/home1/yizhuoli/miniconda3/envs/sglang/lib/python3.12/site-packages/psutil/_pslinux.py", line 1638, in wrapper
+    return fun(self, *args, **kwargs)
+  File "/home1/yizhuoli/miniconda3/envs/sglang/lib/python3.12/site-packages/psutil/_pslinux.py", line 1900, in create_time
+    float(self._parse_stat_file()['create_time']) / CLOCK_TICKS
+  File "/home1/yizhuoli/miniconda3/envs/sglang/lib/python3.12/site-packages/psutil/_pslinux.py", line 1638, in wrapper
+    return fun(self, *args, **kwargs)
+  File "/home1/yizhuoli/miniconda3/envs/sglang/lib/python3.12/site-packages/psutil/_common.py", line 459, in wrapper
+    return fun(self)
+  File "/home1/yizhuoli/miniconda3/envs/sglang/lib/python3.12/site-packages/psutil/_pslinux.py", line 1728, in _parse_stat_file
+    data = bcat(f"{self._procfs_path}/{self.pid}/stat")
+  File "/home1/yizhuoli/miniconda3/envs/sglang/lib/python3.12/site-packages/psutil/_common.py", line 812, in bcat
+    return cat(fname, fallback=fallback, _open=open_binary)
+  File "/home1/yizhuoli/miniconda3/envs/sglang/lib/python3.12/site-packages/psutil/_common.py", line 800, in cat
+    with _open(fname) as f:
+  File "/home1/yizhuoli/miniconda3/envs/sglang/lib/python3.12/site-packages/psutil/_common.py", line 764, in open_binary
+    return open(fname, "rb", buffering=FILE_READ_BUFFER_SIZE)
+  File "/home1/yizhuoli/sglang/python/sglang/srt/entrypoints/engine.py", line 704, in launch_phase_sigquit_handler
+    logger.error(
+Message: 'Received sigquit from a child process. It usually means the child failed.'
+Arguments: ()

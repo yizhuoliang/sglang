@@ -17,6 +17,8 @@
 
 import logging
 import math
+import os
+import time
 from collections.abc import Iterable
 from functools import partial
 from typing import Any, Dict, List, Optional, Tuple, Union
@@ -92,6 +94,9 @@ class GptOssConfig(PretrainedConfig):
 
 
 logger = logging.getLogger(__name__)
+
+# Enable per-layer timing logs when SGLANG_LAYER_TIMING=1
+LAYER_TIMING_ENABLED = os.environ.get("SGLANG_LAYER_TIMING", "0") == "1"
 
 
 # Aligned with HF's implementation, using sliding window inclusive with the last token
@@ -461,6 +466,23 @@ class GptOssDecoderLayer(nn.Module):
             ),
         )
 
+        # CUDA-graph-friendly timing: pre-allocate CUDA events; they will be recorded during capture and replayed
+        if LAYER_TIMING_ENABLED:
+            try:
+                import torch
+
+                self._attn_timing_events = (
+                    torch.cuda.Event(enable_timing=True),
+                    torch.cuda.Event(enable_timing=True),
+                )
+                self._moe_timing_events = (
+                    torch.cuda.Event(enable_timing=True),
+                    torch.cuda.Event(enable_timing=True),
+                )
+            except Exception:
+                self._attn_timing_events = None
+                self._moe_timing_events = None
+
     def forward(
         self,
         positions: torch.Tensor,
@@ -468,16 +490,21 @@ class GptOssDecoderLayer(nn.Module):
         forward_batch: ForwardBatch,
         residual: Optional[torch.Tensor],
     ) -> Tuple[torch.Tensor, torch.Tensor]:
+        t0 = time.time() if LAYER_TIMING_ENABLED else None
         hidden_states, residual = self.layer_communicator.prepare_attn(
             hidden_states, residual, forward_batch
         )
 
         if hidden_states.shape[0] != 0:
+            if LAYER_TIMING_ENABLED and getattr(self, "_attn_timing_events", None) is not None:
+                self._attn_timing_events[0].record()
             hidden_states = self.self_attn(
                 positions=positions,
                 hidden_states=hidden_states,
                 forward_batch=forward_batch,
             )
+            if LAYER_TIMING_ENABLED and getattr(self, "_attn_timing_events", None) is not None:
+                self._attn_timing_events[1].record()
 
         hidden_states, residual = self.layer_communicator.prepare_mlp(
             hidden_states, residual, forward_batch
@@ -489,7 +516,11 @@ class GptOssDecoderLayer(nn.Module):
             )
         )
 
+        if LAYER_TIMING_ENABLED and getattr(self, "_moe_timing_events", None) is not None:
+            self._moe_timing_events[0].record()
         hidden_states = self.mlp(hidden_states, forward_batch, should_allreduce_fusion)
+        if LAYER_TIMING_ENABLED and getattr(self, "_moe_timing_events", None) is not None:
+            self._moe_timing_events[1].record()
 
         if should_allreduce_fusion:
             hidden_states._sglang_needs_allreduce_fusion = True

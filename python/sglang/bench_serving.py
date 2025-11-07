@@ -1124,8 +1124,10 @@ def sample_sharegpt_requests(
             # Prune too short sequences.
             continue
 
-        if context_len and prompt_len + output_len > context_len:
-            # Prune too long sequences.
+        if context_len and prompt_len > context_len:
+            # Prune prompts that are too long for the context window.
+            # Note: We only check prompt_len here since output_len is a generation limit,
+            # not part of the input context that needs to fit in the model's context window.
             continue
 
         filtered_dataset.append(
@@ -1627,6 +1629,11 @@ async def benchmark(
     if args.dataset_name == "mooncake":
         # For mooncake, input_requests is a list of dicts.
         # We need to build a temporary DatasetRow for the warmup phase.
+        if not input_requests:
+            raise ValueError(
+                "No valid requests found in the mooncake dataset. "
+                "Check that the dataset file is not empty."
+            )
         warmup_record = input_requests[0]
 
         # Build prompt from hash_ids, just like in the async generator
@@ -1648,6 +1655,14 @@ async def benchmark(
         )
     else:
         # For all other datasets, input_requests is a list of DatasetRow objects
+        if not input_requests:
+            raise ValueError(
+                "No valid requests found in the dataset. This could be due to:\n"
+                "  1. Dataset filtering is too strict (context_len too small)\n"
+                "  2. Dataset file is empty or malformed\n"
+                "  3. All sequences were filtered out due to length constraints\n"
+                "Try increasing --sharegpt-context-len or reducing --sharegpt-output-len"
+            )
         test_request = input_requests[0]
 
     if lora_names is not None and len(lora_names) != 0:

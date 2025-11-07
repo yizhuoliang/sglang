@@ -2057,6 +2057,11 @@ class ModelRunner:
         reinit_attn_backend: bool = False,
         split_forward_count: int = 1,
     ) -> Tuple[Union[LogitsProcessorOutput, PPProxyTensors], bool]:
+        layer_timing_enabled = os.environ.get("SGLANG_LAYER_TIMING", "0") == "1"
+        attn_ms = moe_ms = None
+        if layer_timing_enabled and forward_batch.forward_mode.is_decode():
+            forward_batch.timing_attn_ms = 0.0
+            forward_batch.timing_moe_ms = 0.0
         mode_check = (
             forward_batch.forward_mode.is_cpu_graph
             if self.device == "cpu"
@@ -2108,6 +2113,29 @@ class ModelRunner:
             and self.pp_group.is_last_rank
         ):
             forward_batch.post_forward_mlp_sync_batch(ret)
+
+        # if layer_timing_enabled and forward_batch.forward_mode.is_decode():
+        #     # Prefer CUDA event-based elapsed time when available (works under CUDA graphs)
+        #     attn_ms_acc = 0.0
+        #     moe_ms_acc = 0.0
+        #     try:
+        #         # Sum over decoder layers on this PP rank
+        #         for layer in self.model.model.layers[self.model.start_layer : self.model.end_layer]:
+        #             ev = getattr(layer, "_attn_timing_events", None)
+        #             if ev is not None:
+        #                 # elapsed_time returns ms after events are recorded in stream
+        #                 attn_ms_acc += float(ev[0].elapsed_time(ev[1]))
+        #             ev = getattr(layer, "_moe_timing_events", None)
+        #             if ev is not None:
+        #                 moe_ms_acc += float(ev[0].elapsed_time(ev[1]))
+        #     except Exception:
+        #         # Fallback to Python timers (may be zero under graphs)
+        #         attn_ms_acc = float(getattr(forward_batch, "timing_attn_ms", 0.0))
+        #         moe_ms_acc = float(getattr(forward_batch, "timing_moe_ms", 0.0))
+
+        #     logger.info(
+        #         f"[Decode Iteration] attention={attn_ms_acc:.2f} ms, moe={moe_ms_acc:.2f} ms"
+        #     )
 
         return ret, can_run_graph
 
