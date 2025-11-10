@@ -380,8 +380,8 @@ class _DetailSinglePassGatherer(_SinglePassGatherer):
     def on_forward_pass_start(self, forward_batch: ForwardBatch):
         assert self._metadata is None
         self._metadata = dict(
-            # TODO pr-chain
-            # rids=forward_batch.rids,
+            # Request ids aligned with batch order
+            rids=forward_batch.rids,
             input_ids=forward_batch.input_ids.cpu().tolist(),
             positions=forward_batch.positions.cpu().tolist(),
             extend_seq_lens=forward_batch.extend_seq_lens_cpu,
@@ -752,7 +752,7 @@ class _DetailAccumulator(_UtilizationRateAccumulatorMixin):
             f"expert_distribution_recorder_{time.time()}_{self._rank}.pt", output
         )
 
-        # Optionally emit CSV rows of per-token per-layer top-1 expert routing
+        # Optionally emit CSV rows of per-token per-layer expert routing
         csv_path = self._server_args.expert_distribution_csv_path
         if csv_path:
             # Determine final file path
@@ -770,48 +770,78 @@ class _DetailAccumulator(_UtilizationRateAccumulatorMixin):
 
             with open(final_csv_path, mode="w", newline="") as f:
                 writer = csv.writer(f)
-                writer.writerow(
-                    [
-                        "forward_pass_id",
-                        "rank",
-                        "layer",
-                        "token_index",
-                        "position",
-                        "expert_top1_logical",
-                    ]
-                )
+
+                # Determine K from the first available record
+                k_slots_detected = None
+                for rec in self._records:
+                    topk = rec.get("topk_ids_of_layer")
+                    if topk is not None:
+                        k_slots_detected = topk.shape[2]
+                        break
+                if k_slots_detected is None:
+                    # Nothing to write
+                    return
+
+                # per_token: single row per token/layer with k-wide expert columns
+                header = [
+                    "rid",
+                    "rank",
+                    "layer",
+                    "token_index",
+                ] + [f"expert_logical_k{i}" for i in range(k_slots_detected)]
+                writer.writerow(header)
 
                 for rec in self._records:
-                    fpid = rec.get("forward_pass_id")
+                    rids = rec.get("rids") or []
                     positions = rec.get("positions") or []
                     topk = rec.get("topk_ids_of_layer")
                     if topk is None:
                         continue
-                    # topk: (num_layers, num_tokens, K)
                     num_layers = topk.shape[0]
                     num_tokens = min(topk.shape[1], len(positions))
+                    k_slots = topk.shape[2]
+                    extend_seq_lens = rec.get("extend_seq_lens") or []
+
+                    # Prepare sequence index mapping over flattened tokens
+                    seq_token_bounds = extend_seq_lens if extend_seq_lens else None
 
                     for layer_idx in range(num_layers):
-                        # Map per-token primary expert (top-1)
+                        # Reset per-layer to avoid carrying state across layers
+                        seq_idx = 0
+                        seq_tok_offset = 0
                         for tok_idx in range(num_tokens):
-                            expert_phys = int(topk[layer_idx, tok_idx, 0].item())
-                            if expert_phys < 0:
-                                continue
-                            # Safe mapping: if out-of-range, keep physical id
-                            if 0 <= expert_phys < phys2log.shape[1]:
-                                expert_logical = int(phys2log[layer_idx, expert_phys].item())
+                            pos_val = positions[tok_idx] if tok_idx < len(positions) else -1
+                            # Determine rid for this token
+                            if seq_token_bounds:
+                                # Guard against out-of-range if bounds and rids mismatch
+                                if seq_idx >= len(seq_token_bounds):
+                                    rid_val = rids[seq_idx] if seq_idx < len(rids) else None
+                                    token_index_within_seq = pos_val
+                                else:
+                                    rid_val = rids[seq_idx] if seq_idx < len(rids) else None
+                                    # token_index per-sequence: use position if available, else offset
+                                    token_index_within_seq = pos_val if pos_val != -1 else seq_tok_offset
+                                    seq_tok_offset += 1
+                                    if seq_idx < len(seq_token_bounds) and seq_tok_offset >= seq_token_bounds[seq_idx]:
+                                        seq_idx += 1
+                                        seq_tok_offset = 0
                             else:
-                                expert_logical = expert_phys
-                            writer.writerow(
-                                [
-                                    fpid,
-                                    self._rank,
-                                    layer_idx,
-                                    tok_idx,
-                                    positions[tok_idx] if tok_idx < len(positions) else -1,
-                                    expert_logical,
-                                ]
-                            )
+                                # decode or single-token-per-seq cases
+                                rid_val = rids[tok_idx] if tok_idx < len(rids) else None
+                                token_index_within_seq = pos_val
+
+                            row = [rid_val, self._rank, layer_idx, token_index_within_seq]
+                            for k_idx in range(k_slots):
+                                expert_phys = int(topk[layer_idx, tok_idx, k_idx].item())
+                                if expert_phys < 0:
+                                    row.append(None)
+                                else:
+                                    if 0 <= expert_phys < phys2log.shape[1]:
+                                        expert_logical = int(phys2log[layer_idx, expert_phys].item())
+                                    else:
+                                        expert_logical = expert_phys
+                                    row.append(expert_logical)
+                            writer.writerow(row)
 
 
 class _StatAccumulator(_UtilizationRateAccumulatorMixin):

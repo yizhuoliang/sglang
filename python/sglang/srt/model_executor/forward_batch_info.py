@@ -186,6 +186,8 @@ class ForwardBatch:
 
     # The original sequence length without being chunked. Qwen-1M related.
     orig_seq_lens: Optional[torch.Tensor] = None
+    # Request ids for each sequence in the batch (order matches batch)
+    rids: Optional[List[str]] = None
 
     # Optional seq_lens on cpu
     seq_lens_cpu: Optional[torch.Tensor] = None
@@ -319,6 +321,7 @@ class ForwardBatch:
 
         ret = cls(
             forward_mode=batch.forward_mode,
+            rids=batch.rids,
             batch_size=len(batch.seq_lens),
             input_ids=batch.input_ids,
             req_pool_indices=batch.req_pool_indices,

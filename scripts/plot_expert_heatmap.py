@@ -2,6 +2,7 @@
 import argparse
 import os
 import sys
+import glob
 
 import duckdb  # pip install duckdb
 import pandas as pd
@@ -46,28 +47,80 @@ def main():
     args = parse_args()
     cwd = os.getcwd()
     pattern = os.path.join(cwd, args.input_glob)
+    files = sorted(glob.glob(pattern))
 
     # Use DuckDB to scan and aggregate large CSVs efficiently.
     con = duckdb.connect()
     con.execute(f"PRAGMA threads={args.threads}")
 
-    # Column names expected: forward_pass_id, rank, layer, token_index, position, expert_top1_logical
-    # We only need layer and expert_top1_logical.
-    query = f"""
+    # Column names can be either:
+    # - forward_pass_id, rank, layer, token_index, position, k_slot, expert_logical (new)
+    # - forward_pass_id, rank, layer, token_index, position, expert_top1_logical (legacy)
+    # We only need layer and expert id for counting.
+    # Try new schema first (expert_logical), then legacy (expert_top1_logical)
+    query_new = f"""
         SELECT
             layer::INTEGER AS layer,
-            expert_top1_logical::INTEGER AS expert,
+            TRY_CAST(expert_logical AS INTEGER) AS expert,
             COUNT(*)::BIGINT AS cnt
         FROM read_csv_auto('{pattern}', HEADER=TRUE)
+        WHERE expert_logical IS NOT NULL
+          AND TRY_CAST(expert_logical AS INTEGER) IS NOT NULL
+          AND TRY_CAST(expert_logical AS INTEGER) >= 0
+        GROUP BY layer, expert
+        ORDER BY layer, expert
+    """
+    query_legacy = f"""
+        SELECT
+            layer::INTEGER AS layer,
+            TRY_CAST(expert_top1_logical AS INTEGER) AS expert,
+            COUNT(*)::BIGINT AS cnt
+        FROM read_csv_auto('{pattern}', HEADER=TRUE)
+        WHERE expert_top1_logical IS NOT NULL
+          AND TRY_CAST(expert_top1_logical AS INTEGER) IS NOT NULL
+          AND TRY_CAST(expert_top1_logical AS INTEGER) >= 0
         GROUP BY layer, expert
         ORDER BY layer, expert
     """
 
-    try:
-        agg_df: pd.DataFrame = con.execute(query).fetchdf()
-    except duckdb.CatalogException as e:
-        print(f"No files matched pattern: {pattern}", file=sys.stderr)
-        raise e
+    # Handle consolidated wide schema (per_token) by unpivoting expert_logical_k*
+    agg_df = None
+    if files:
+        # Peek header to detect expert_logical_k columns
+        with open(files[0], "r", encoding="utf-8") as fh:
+            header = fh.readline().strip().split(",")
+        k_cols = [c for c in header if c.startswith("expert_logical_k")]
+        if k_cols:
+            # Build UNNEST query of wide columns
+            cols_expr = ", ".join(k_cols)
+            query_wide = f"""
+                WITH base AS (
+                    SELECT layer::INTEGER AS layer,
+                           LIST_VALUE({cols_expr}) AS experts
+                    FROM read_csv_auto('{pattern}', HEADER=TRUE)
+                )
+                SELECT layer, TRY_CAST(expert AS INTEGER) AS expert, COUNT(*)::BIGINT AS cnt
+                FROM (
+                    SELECT layer, UNNEST(experts) AS expert FROM base
+                )
+                WHERE expert IS NOT NULL
+                  AND TRY_CAST(expert AS INTEGER) IS NOT NULL
+                  AND TRY_CAST(expert AS INTEGER) >= 0
+                GROUP BY layer, expert
+                ORDER BY layer, expert
+            """
+            try:
+                agg_df = con.execute(query_wide).fetchdf()
+            except duckdb.CatalogException:
+                agg_df = None
+
+    if agg_df is None:
+        try:
+            agg_df = con.execute(query_new).fetchdf()
+            if agg_df.empty:
+                agg_df = con.execute(query_legacy).fetchdf()
+        except duckdb.CatalogException:
+            agg_df = con.execute(query_legacy).fetchdf()
 
     if agg_df.empty:
         print("No rows found in input CSVs.")

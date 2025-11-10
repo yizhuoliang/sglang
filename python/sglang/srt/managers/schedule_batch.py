@@ -1752,6 +1752,7 @@ class ScheduleBatch(ScheduleBatchDisaggregationDecodeMixin):
         return ModelWorkerBatch(
             bid=bid,
             forward_mode=self.forward_mode,
+            rids=[req.rid for req in self.reqs],
             input_ids=self.input_ids,
             req_pool_indices=self.req_pool_indices,
             seq_lens=self.seq_lens,
@@ -1874,6 +1875,8 @@ class ModelWorkerBatch:
     bid: int
     # The forward mode
     forward_mode: ForwardMode
+    # Request ids for each sequence in the batch (order matches batch)
+    rids: Optional[List[str]]
     # The input ids
     input_ids: torch.Tensor
     # The indices of requests in the req_to_token_pool
